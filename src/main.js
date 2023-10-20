@@ -9,6 +9,11 @@ var savedView = document.querySelector('.saved-view');
 var formView = document.querySelector('.form-view');
 var homeBtn = document.querySelector('.home-button');
 
+var homeImg = document.querySelector('.cover-image')
+var homeTitle = document.querySelector('.cover-title')
+var homeDesc1 = document.querySelector('.tagline-1')
+var homeDesc2 = document.querySelector('.tagline-2')
+
 // We've provided a few variables below
 var savedCovers = [
   createCover("http://3.bp.blogspot.com/-iE4p9grvfpQ/VSfZT0vH2UI/AAAAAAAANq8/wwQZssi-V5g/s1600/Do%2BNot%2BForsake%2BMe%2B-%2BImage.jpg", "Sunsets and Sorrows", "sunsets", "sorrows")
@@ -44,10 +49,10 @@ function createRandomCover(){
   var randomTitle = titles[getRandomIndex(titles)];
   var randomDescriptor1 = descriptors[getRandomIndex(descriptors)];
   var randomDescriptor2 = descriptors[getRandomIndex(descriptors)];
-  document.querySelector('.cover-image').src = randomCover;
-  document.querySelector('.cover-title').innerText = randomTitle;
-  document.querySelector('.tagline-2').innerText = randomDescriptor2;
-  document.querySelector('.tagline-1').innerText = randomDescriptor1;
+  homeImg.src = randomCover;
+  homeTitle.innerText = randomTitle;
+  homeDesc1.innerText = randomDescriptor1;
+  homeDesc2.innerText = randomDescriptor2;
 }
 
 function makeNewBtn() {
@@ -60,7 +65,7 @@ function makeNewBtn() {
 }
 
 function viewSavedCovers(){
-  homeView.classList.remove('hidden');
+  homeView.classList.add('hidden');
   savedView.classList.remove('hidden');
   formView.classList.add('hidden');
 }
@@ -79,12 +84,15 @@ function createCustomCover() {
   var userTitle = document.querySelector('.user-title').value;
   var userDesc1 = document.querySelector('.user-desc1').value;
   var userDesc2 = document.querySelector('.user-desc2').value;
-  const customCover = createCover(userCover, userTitle, userDesc1, userDesc2);
-  document.querySelector('.cover-image').src = customCover.coverImg;
-  document.querySelector('.cover-title').innerText = customCover.title;
-  document.querySelector('.tagline-2').innerText = customCover.tagline2;
-  document.querySelector('.tagline-1').innerText = customCover.tagline1;
+  var customCover = createCover(userCover, userTitle, userDesc1, userDesc2);
+  covers.push(userCover);
+  titles.push(userTitle);
+  descriptors.push(userDesc1);
+  descriptors.push(userDesc2);
+  homeImg.src = customCover.coverImg;
+  homeTitle.innerText = customCover.title;
+  homeDesc1.innerText = customCover.tagline1;
+  homeDesc2.innerText = customCover.tagline2;
+  event.preventDefault();
   viewHome();
 }
-
-var customCover = createCover(userCover, userTitle, userDesc1, userDesc2);
