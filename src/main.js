@@ -60,7 +60,7 @@ function makeNewBtn() {
 }
 
 function viewSavedCovers(){
-  homeView.classList.remove('hidden');
+  homeView.classList.add('hidden');
   savedView.classList.remove('hidden');
   formView.classList.add('hidden');
 }
@@ -74,17 +74,45 @@ function viewHome(){
   randomBtn.classList.remove('hidden');
 }
 
+// function createCustomCover() {
+//   var userCover = document.querySelector('.user-cover').value;
+//   var userTitle = document.querySelector('.user-title').value;
+//   var userDesc1 = document.querySelector('.user-desc1').value;
+//   var userDesc2 = document.querySelector('.user-desc2').value;
+//   var createCover(userCover, userTitle, userDesc1, userDesc2);
+//   covers.push(userCover);
+//   titles.push(userTitle);
+//   descriptors.push(userDesc1);
+//   descriptors.push(userDesc2);
+  
+  // document.querySelector('.cover-image').src = customCover.coverImg;
+  // document.querySelector('.cover-title').innerText = customCover.title;
+  // document.querySelector('.tagline-2').innerText = customCover.tagline2;
+  // document.querySelector('.tagline-1').innerText = customCover.tagline1;
+  // viewHome();
+// }
+
+// var customCover = createCover(userCover, userTitle, userDesc1, userDesc2);
+
+/*
+
+
+
+*/
+
 function createCustomCover() {
   var userCover = document.querySelector('.user-cover').value;
   var userTitle = document.querySelector('.user-title').value;
   var userDesc1 = document.querySelector('.user-desc1').value;
   var userDesc2 = document.querySelector('.user-desc2').value;
-  const customCover = createCover(userCover, userTitle, userDesc1, userDesc2);
+  var customCover = createCover(userCover, userTitle, userDesc1, userDesc2);
+  covers.push(userCover);
+  titles.push(userTitle);
+  descriptors.push(userDesc1);
+  descriptors.push(userDesc2);
   document.querySelector('.cover-image').src = customCover.coverImg;
   document.querySelector('.cover-title').innerText = customCover.title;
   document.querySelector('.tagline-2').innerText = customCover.tagline2;
   document.querySelector('.tagline-1').innerText = customCover.tagline1;
   viewHome();
 }
-
-var customCover = createCover(userCover, userTitle, userDesc1, userDesc2);
