@@ -1,4 +1,4 @@
-// Create variables targetting the relevant DOM elements here :point_down:
+//Variables
 var randomBtn = document.querySelector('.random-cover-button');
 var saveBtn = document.querySelector('.save-cover-button');
 var viewBtn = document.querySelector('.view-saved-button');
@@ -8,17 +8,14 @@ var homeView = document.querySelector('.home-view');
 var savedView = document.querySelector('.saved-view');
 var formView = document.querySelector('.form-view');
 var homeBtn = document.querySelector('.home-button');
-
 var homeImg = document.querySelector('.cover-image')
 var homeTitle = document.querySelector('.cover-title')
 var homeDesc1 = document.querySelector('.tagline-1')
 var homeDesc2 = document.querySelector('.tagline-2')
-
-// We've provided a few variables below
 var savedCovers = [];
 var currentCover = createRandomCover();
 
-// Add your event listeners here :point_down:
+//Event Listeners
 randomBtn.addEventListener('click', createRandomCover);
 newBtn.addEventListener('click', makeNewBtn);
 viewBtn.addEventListener('click', viewSavedCovers);
@@ -26,7 +23,7 @@ homeBtn.addEventListener('click', viewHome)
 saveBtn.addEventListener('click', saveCover);
 newBookBtn.addEventListener('click', createCustomCover);
 
-// Create your event handlers and other functions here :point_down:
+//Event Handlers
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
@@ -54,53 +51,31 @@ function createRandomCover(){
 }
 
 function makeNewBtn() {
-  console.log('Yes!');
   formView.classList.remove('hidden');
   homeView.classList.add('hidden');
+  savedView.classList.add('hidden')
   homeBtn.classList.remove('hidden');
   saveBtn.classList.add('hidden');
   randomBtn.classList.add('hidden');
-}
 
-function viewSavedCovers() {
-  if (savedCovers.length > 0) {
-    var savedCoversHTML = '';
-    for (var i = 0; i < savedCovers.length; i++) {
-      var savedCover = savedCovers[i];
-      var coverElement = createCoverElement(savedCover);
-      savedCoversHTML += coverElement;
-    }
-    savedView.innerHTML = savedCoversHTML;
-  } else {
-    savedView.innerHTML = '<p>No saved covers.</p>';
-  }
-  homeView.classList.add('hidden');
-  savedView.classList.remove('hidden');
-  formView.classList.add('hidden');
-  homeBtn.classList.remove('hidden');
-  saveBtn.classList.add('hidden');
-  randomBtn.classList.add('hidden');
 }
-
-function createCoverElement(cover) {
-  var coverElementHTML = `
-    <div class="cover">
-      <img src="${cover.coverImg}" alt="Cover Image">
-      <h2>${cover.title}</h2>
-      <h3>${cover.tagline1}</h3>
-      <h3>${cover.tagline2}</h3>
-  `;
-  
-  return coverElementHTML;
-}
-
 function viewHome(){
-  homeView.classList.remove('hidden')
-  savedView.classList.remove('hidden');
+  homeView.classList.remove('hidden');
+  savedView.classList.add('hidden')
   formView.classList.add('hidden');
   homeBtn.classList.add('hidden');
   saveBtn.classList.remove('hidden');
   randomBtn.classList.remove('hidden');
+}
+
+function viewSavedCovers() {
+  savedView.classList.remove('hidden');
+  homeView.classList.add('hidden');
+  formView.classList.add('hidden');
+  homeBtn.classList.remove('hidden');
+  saveBtn.classList.add('hidden');
+  randomBtn.classList.add('hidden');
+  displaySavedCovers();
 }
 
 function createCustomCover() {
@@ -121,16 +96,44 @@ function createCustomCover() {
   viewHome();
 }
 
+function displaySavedCovers() {
+  var savedCoversSection = document.querySelector('.saved-covers-section');
+  savedCoversSection.innerHTML = '';
+  for (var i = 0; i < savedCovers.length; i++) {
+    var cover = savedCovers[i];
+    var miniCover = document.createElement('div');
+    miniCover.classList.add('mini-cover');
+    miniCover.innerHTML = `
+      <img class="cover-image" src="${cover.coverImg}">
+      <h2 class="cover-title">${cover.title}</h2>
+      <h3 class="tagline">A tale of <span class="tagline-1">${cover.tagline1}</span> and <span class="tagline-2">${cover.tagline2}</span></h3>
+    `;
+    savedCoversSection.appendChild(miniCover);
+  }
+}
+
 function saveCover() {
-  var currentCover = createCover(homeImg.src, homeTitle.innerText, homeDesc1.innerText, homeDesc2.innerText);
+  var currentCoverData = {
+    coverImg: homeImg.src,
+    title: homeTitle.innerText,
+    tagline1: homeDesc1.innerText,
+    tagline2: homeDesc2.innerText,
+  };
   var isDuplicate = false;
   for (var i = 0; i < savedCovers.length; i++) {
-    if (savedCovers[i].id === currentCover.id) {
+    var cover = savedCovers[i];
+    if (
+      cover.coverImg === currentCoverData.coverImg &&
+      cover.title === currentCoverData.title &&
+      cover.tagline1 === currentCoverData.tagline1 &&
+      cover.tagline2 === currentCoverData.tagline2
+    ) {
       isDuplicate = true;
       break;
     }
   }
-  if (isDuplicate === false) {
-    savedCovers.push(currentCover);
+  if (isDuplicate) {
+  } else {
+    savedCovers.push(currentCoverData);
   }
 }
