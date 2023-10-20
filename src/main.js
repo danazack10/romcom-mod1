@@ -15,9 +15,7 @@ var homeDesc1 = document.querySelector('.tagline-1')
 var homeDesc2 = document.querySelector('.tagline-2')
 
 // We've provided a few variables below
-var savedCovers = [
-  createCover("http://3.bp.blogspot.com/-iE4p9grvfpQ/VSfZT0vH2UI/AAAAAAAANq8/wwQZssi-V5g/s1600/Do%2BNot%2BForsake%2BMe%2B-%2BImage.jpg", "Sunsets and Sorrows", "sunsets", "sorrows")
-];
+var savedCovers = [];
 var currentCover = createRandomCover();
 
 // Add your event listeners here :point_down:
@@ -25,10 +23,10 @@ randomBtn.addEventListener('click', createRandomCover);
 newBtn.addEventListener('click', makeNewBtn);
 viewBtn.addEventListener('click', viewSavedCovers);
 homeBtn.addEventListener('click', viewHome)
-// saveBtn.addEventListener('click', saveCover);
+saveBtn.addEventListener('click', saveCover);
 newBookBtn.addEventListener('click', createCustomCover);
-// Create your event handlers and other functions here :point_down:
 
+// Create your event handlers and other functions here :point_down:
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
@@ -64,10 +62,36 @@ function makeNewBtn() {
   randomBtn.classList.add('hidden');
 }
 
-function viewSavedCovers(){
+function viewSavedCovers() {
+  if (savedCovers.length > 0) {
+    var savedCoversHTML = '';
+    for (var i = 0; i < savedCovers.length; i++) {
+      var savedCover = savedCovers[i];
+      var coverElement = createCoverElement(savedCover);
+      savedCoversHTML += coverElement;
+    }
+    savedView.innerHTML = savedCoversHTML;
+  } else {
+    savedView.innerHTML = '<p>No saved covers.</p>';
+  }
   homeView.classList.add('hidden');
   savedView.classList.remove('hidden');
   formView.classList.add('hidden');
+  homeBtn.classList.remove('hidden');
+  saveBtn.classList.add('hidden');
+  randomBtn.classList.add('hidden');
+}
+
+function createCoverElement(cover) {
+  var coverElementHTML = `
+    <div class="cover">
+      <img src="${cover.coverImg}" alt="Cover Image">
+      <h2>${cover.title}</h2>
+      <h3>${cover.tagline1}</h3>
+      <h3>${cover.tagline2}</h3>
+  `;
+  
+  return coverElementHTML;
 }
 
 function viewHome(){
@@ -95,4 +119,18 @@ function createCustomCover() {
   homeDesc2.innerText = customCover.tagline2;
   event.preventDefault();
   viewHome();
+}
+
+function saveCover() {
+  var currentCover = createCover(homeImg.src, homeTitle.innerText, homeDesc1.innerText, homeDesc2.innerText);
+  var isDuplicate = false;
+  for (var i = 0; i < savedCovers.length; i++) {
+    if (savedCovers[i].id === currentCover.id) {
+      isDuplicate = true;
+      break;
+    }
+  }
+  if (isDuplicate === false) {
+    savedCovers.push(currentCover);
+  }
 }
