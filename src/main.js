@@ -1,4 +1,4 @@
-//Variables
+//DOM Elements
 var randomBtn = document.querySelector('.random-cover-button');
 var saveBtn = document.querySelector('.save-cover-button');
 var viewBtn = document.querySelector('.view-saved-button');
@@ -103,22 +103,19 @@ function displaySavedCovers() {
     var cover = savedCovers[i];
     var miniCover = document.createElement('div');
     miniCover.classList.add('mini-cover');
+    miniCover.dataset.index = i;
     miniCover.innerHTML = `
       <img class="cover-image" src="${cover.coverImg}">
       <h2 class="cover-title">${cover.title}</h2>
       <h3 class="tagline">A tale of <span class="tagline-1">${cover.tagline1}</span> and <span class="tagline-2">${cover.tagline2}</span></h3>
     `;
     savedCoversSection.appendChild(miniCover);
+    miniCover.addEventListener('dblclick', deleteSavedCover);
   }
 }
 
 function saveCover() {
-  var currentCoverData = {
-    coverImg: homeImg.src,
-    title: homeTitle.innerText,
-    tagline1: homeDesc1.innerText,
-    tagline2: homeDesc2.innerText,
-  };
+  var currentCoverData = createCover(homeImg.src, homeTitle.innerText, homeDesc1.innerText, homeDesc2.innerText)
   var isDuplicate = false;
   for (var i = 0; i < savedCovers.length; i++) {
     var cover = savedCovers[i];
@@ -136,4 +133,10 @@ function saveCover() {
   } else {
     savedCovers.push(currentCoverData);
   }
+}
+
+function deleteSavedCover(event) {
+  var index = event.currentTarget.dataset.index;
+  savedCovers.splice(index, 1);
+  displaySavedCovers();
 }
