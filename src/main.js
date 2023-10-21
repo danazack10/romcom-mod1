@@ -1,4 +1,4 @@
-//DOM Elements
+//Variables
 var randomBtn = document.querySelector('.random-cover-button');
 var saveBtn = document.querySelector('.save-cover-button');
 var viewBtn = document.querySelector('.view-saved-button');
